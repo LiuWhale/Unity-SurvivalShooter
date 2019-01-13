@@ -10,14 +10,14 @@ public class PlayerMovement : MonoBehaviour
     int floorMask;
     float camRayLength = 100f;
 
-    private void Awake()
+    void Awake()
     {
         floorMask = LayerMask.GetMask("Floor");
         anim = GetComponent<Animator>();
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
         Move(h, v);
         Turning();
         Animating(h, v);
+        
     }
 
     void Move(float h,float v)
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Turning()
     {
-        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);//必须在inspector里将摄像头标识为mainCamera
 
         RaycastHit floorHit;
 
@@ -46,8 +47,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Vector3 playerToMouse = floorHit.point - transform.position;
             playerToMouse.y = 0f;
-            Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
-            playerRigidbody.MoveRotation(newRotation);
+            Quaternion newRotatation = Quaternion.LookRotation(playerToMouse);
+            playerRigidbody.MoveRotation(newRotatation);
         }
     }
 
